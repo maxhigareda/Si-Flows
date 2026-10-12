@@ -242,17 +242,11 @@ export const App: React.FC = () => {
 
   // Export handlers
   const handleExportPng = () => {
-    const svgEl = document.querySelector('#canvas-grid-bg') as SVGSVGElement;
-    if (svgEl) {
-      exportToPng(svgEl, title, nodes);
-    }
+    exportToPng(title, nodes, connections, 2);
   };
 
   const handleExportSvg = () => {
-    const svgEl = document.querySelector('#canvas-grid-bg') as SVGSVGElement;
-    if (svgEl) {
-      exportToSvg(svgEl, title, nodes);
-    }
+    exportToSvg(title, nodes, connections);
   };
 
   const handleSaveSiFlow = () => {
