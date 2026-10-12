@@ -31,10 +31,11 @@ jobs:
         run: npm run build
 
       - name: Compilar Instalador MSI con Tauri
-        run: npx @tauri-apps/cli build --bundles msi
+        run: npx @tauri-apps/cli build --bundles msi --verbose
 
       - name: Subir instalador MSI
         uses: actions/upload-artifact@v4
         with:
           name: SI-Flows-windows-msi
           path: src-tauri/target/release/bundle/msi/*.msi
+          if-no-files-found: warn
