@@ -3,6 +3,8 @@ name: Compilar Instalador MSI (Windows)
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
@@ -18,29 +20,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'npm'
 
       - name: Instalar Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Instalar dependencias npm
-        run: npm ci
+        run: npm install
 
       - name: Compilar frontend
         run: npm run build
 
       - name: Compilar Instalador MSI con Tauri
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tagName: v__VERSION__
-          releaseName: 'SI Flows v__VERSION__'
-          releaseBody: 'Instalador oficial de SI Flows para Windows x64 (.msi)'
-          releaseDraft: false
-          prerelease: false
+        run: npx @tauri-apps/cli build --bundles msi
 
-      - name: Subir artefacto MSI
+      - name: Subir instalador MSI
         uses: actions/upload-artifact@v4
         with:
           name: SI-Flows-windows-msi
